@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <title>Days Until Japan</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400|Roboto:100);
+      html, body { overflow: hidden; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+      body { background-image: url("bg.jpg"); background-size: cover; background-repeat: no-repeat; background-position: center top; }
+      table { width: 80%; margin-left: 10%; margin-right: 10%; color: white; }
+      th { font-family: 'Roboto', serif; text-align: center; font-weight: 100; font-size: 7.5vw; margin: 10px; }
+      td { font-family: 'Roboto Condensed', serif; text-align: center; font-weight: 40; font-size: 1.1vw; margin-top: 10px; width: 20%; }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tbody>
+        <tr>
+          <th id="daysDigit"></th>
+          <th id="hoursDigit"></th>
+          <th id="minutesDigit"></th>
+          <th id="secondsDigit"></th>
+        </tr>
+        <tr>
+          <td id="daysLabel"></td>
+          <td id="hoursLabel"></td>
+          <td id="minutesLabel"></td>
+          <td id="secondsLabel"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script>
+
+      document.body.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }, false);
+
+      document.body.addEventListener("touchmove", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }, false);
+
+      var msPerSecond   = 1000;
+      var msPerMinute   = msPerSecond * 60;
+      var msPerHour     = msPerMinute * 60;
+      var msPerDay      = msPerHour * 24;
+      var departureTime = new Date(new Date().getFullYear() + 1, 7, 23, 18, 46).getTime();
+
+      var displayCountdown = function() {
+        var now      = new Date().getTime();
+        var timeLeft = departureTime - now;
+
+        var numDays    = 0;
+        var numHours   = 0;
+        var numMinutes = 0;
+        var numSeconds = 0;
+
+        if (timeLeft > 0) {
+          numDays   = Math.floor(timeLeft / msPerDay);
+          timeLeft -= numDays * msPerDay;
+
+          numHours  = Math.floor(timeLeft / msPerHour);
+          timeLeft -= numHours * msPerHour;
+
+          numMinutes = Math.floor(timeLeft / msPerMinute);
+          timeLeft  -= numMinutes * msPerMinute;
+
+          numSeconds = Math.floor(timeLeft / msPerSecond);
+        }
+
+        document.getElementById("daysDigit").innerHTML    = numDays;
+        document.getElementById("hoursDigit").innerHTML   = numHours;
+        document.getElementById("minutesDigit").innerHTML = numMinutes;
+        document.getElementById("secondsDigit").innerHTML = numSeconds;
+
+        document.getElementById("daysLabel").innerHTML    = numDays    === 1 ? ' Day'    : ' Days';
+        document.getElementById("hoursLabel").innerHTML   = numHours   === 1 ? ' Hour'   : ' Hours';
+        document.getElementById("minutesLabel").innerHTML = numMinutes === 1 ? ' Minute' : ' Minutes';
+        document.getElementById("secondsLabel").innerHTML = numSeconds === 1 ? ' Second' : ' Seconds';
+      }
+
+      displayCountdown()
+
+      setInterval(displayCountdown, 1000);
+
+    </script>
+  </body>
+</html>
